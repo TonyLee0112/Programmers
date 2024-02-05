@@ -51,7 +51,7 @@ def solution(board) :
     q = deque()
     q.appendleft([i,j,0,-1]) # [x,y,score,dir]
     while q:
-        x, y, score, dir = q.pop(0)
+        x, y, score, dir = q.pop()
 
         # 이동할 방향 설정
         dx = [0, 0, -1, 1]
