@@ -1,4 +1,3 @@
-from collections import deque
 def moving(x,y,dir,board,score) : # 한 칸이라도 이동가능할 때 사용
     # 한 번 미끄러져 이동하기 -> 이동 후 좌표와 점수를 list로 반환함.
     dx = [0, 0, -1, 1]
@@ -48,10 +47,14 @@ def solution(board) :
         elif i == width - 1 :
             j += 1
             i = 0
-    q = deque()
-    q.appendleft([i,j,0,-1]) # [x,y,score,dir]
-    while q:
-        x, y, score, dir = q.pop()
+
+    q = [[i,j,0,-1]] # [x,y,score,dir]
+    # recursion_limit 을 안 걸면 안 끝나서 visited 만
+    visited = [[[0 for _ in range(4)] for _ in range(width)] for _ in range(length)]
+    # board 의 각 점에 대하여 길이 4인 list 추가 : 같은 점에서 이동했던 방향으로 이동하는 경우 제거
+    while q :
+        temp = q.pop(0)
+        x, y, score, dir = temp[0], temp[1], temp[2], temp[3]
 
         # 이동할 방향 설정
         dx = [0, 0, -1, 1]
@@ -66,24 +69,24 @@ def solution(board) :
         else : # 이동할 방향이 주어졌을 때
             X = x + dx[dir]
             Y = y + dy[dir]
-            # 이동
-            if movable(X,Y,board) == True :
-                newX, newY, newScore = moving(x,y,dir,board,score)
-                if board[newY][newX] == "G" :
-                    return newScore
-                #이동한 지점 기준으로 다음 지점들 append
-                if dir == 0 or dir == 1 :
-                    for i in range(2,4) :
-                        nextX = newX + dx[i]
-                        nextY = newY + dy[i]
-                        if movable(nextX,nextY,board) == True :
-                            q.append([newX,newY,newScore,i])
-                elif dir == 2 or dir == 3 :
-                    for i in range(0,2) :
-                        nextX = newX + dx[i]
-                        nextY = newY + dy[i]
-                        if movable(nextX,nextY,board) == True :
-                            q.append([newX,newY,newScore,i])
+            if visited[y][x][dir] == 0 : # 그 점으로 이동하기 전에 판단
+                # 이동
+                if movable(X,Y,board) == True :
+                    newX, newY, newScore = moving(x,y,dir,board,score)
+                    visited[y][x][dir] = 1
+                    if board[newY][newX] == "G" :
+                        return newScore
+                    #이동한 지점 기준으로 다음 지점들 append
+                    if dir == 0 or dir == 1 :
+                        for i in range(2,4) :
+                            nextX = newX + dx[i]
+                            nextY = newY + dy[i]
+                            if movable(nextX,nextY,board) == True :
+                                q.append([newX,newY,newScore,i])
+                    elif dir == 2 or dir == 3 :
+                        for i in range(0,2) :
+                            nextX = newX + dx[i]
+                            nextY = newY + dy[i]
+                            if movable(nextX,nextY,board) == True :
+                                q.append([newX,newY,newScore,i])
     return -1
-INPUT = ["...D..R", ".D.G...", "....D.D", "D....D.", "..D...."]
-print(solution(INPUT))
