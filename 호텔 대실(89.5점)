@@ -23,7 +23,6 @@ def solution(times) :
         for i in range(len(times)) :
             if visited[i] == False and Time == times[i][0] :
                 occupied.append(times[i])
-                print("occupied : {}".format(occupied))
                 visited[i] = True
                 cnt += 1
 
@@ -33,7 +32,6 @@ def solution(times) :
             while i < len(occupied) :
                 if occupied[i][1] == Time :
                     occupied.pop(i)
-                    print("occupied : {}".format(occupied))
                     cnt -= 1
                 i += 1
 
