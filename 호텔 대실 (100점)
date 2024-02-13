@@ -1,0 +1,49 @@
+def solution(times) :
+    End = 0
+    for i in range(len(times)) :
+        for j in range(2) :
+            hour, minute = map(int,times[i][j].split(":"))
+            times[i][j] = 60 * hour + minute
+            if j == 1 :
+                times[i][j] += 10
+                if times[i][j] > End :
+                    End = times[i][j]
+
+    times.sort()
+    visited = [False for _ in range(len(times))]
+    occupied = []
+
+    #오픈 시간 설정
+    Time = times[0][0]
+
+    answer, cnt = 0,0
+    while Time <= End :
+
+        # 대실 시작
+        for i in range(len(times)) :
+            if visited[i] == False and Time == times[i][0] :
+                occupied.append(times[i])
+                visited[i] = True
+                cnt += 1
+
+        # 대실 종료
+        if occupied :
+            new = []
+            c = len(occupied)
+            for room in occupied :
+                end = room[1]
+                if Time != end :
+                    new.append(room)
+                    c -= 1
+            occupied = new
+            cnt -= c
+
+
+
+        # 이용 중인 방의 최대 개수 찾기
+        if cnt > answer :
+            answer = cnt
+
+        # 시간 흐름
+        Time += 1
+    return answer
