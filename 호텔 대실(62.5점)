@@ -13,17 +13,15 @@ def solution(book_time):
 
         # 시작시간되면 book_time 에서 꺼내서 q에 넣기
         if book_time:
-            for room in book_time:
-                start = room[0]
+            for start,end in book_time:
                 if start <= current_time:
-                    q.append(book_time.pop(book_time.index(room)))
+                    q.append(book_time.pop(book_time.index([start,end])))
 
         # 종료시간되면 q에서 꺼내기
         if q:
-            for room in q:
-                end = room[1]
-                if end <= current_time:
-                    q.pop(q.index(room))
+            for start,end in q:
+                if end <= current_time: # pop에 의한 인덱싱 문제가 원인이었음
+                    q.pop(q.index([start,end]))
 
         # max(len(q)) 찾기
         if len_max < len(q):
