@@ -1,0 +1,26 @@
+def solution(book_time):
+    In_and_Out = []
+    for i in range(len(book_time)):
+        for j in range(2):
+            hh,mm = map(int, book_time[i][j].split(":"))
+            times = 60 * hh + mm
+            if j == 0 :
+                In_and_Out.append([times,"IN"])
+            else :
+                times += 10
+                In_and_Out.append([times,"OUT"])
+    In_and_Out.sort()
+    print(In_and_Out)
+    cnt = 0
+    cnt_max = 0
+    for t,what in In_and_Out :
+        print("Time : {}".format(t))
+        if what == "IN" :
+            cnt += 1
+            print("IN")
+        else :
+            print("OUT")
+            cnt -= 1
+        if cnt > cnt_max :
+            cnt_max = cnt
+    return cnt_max
