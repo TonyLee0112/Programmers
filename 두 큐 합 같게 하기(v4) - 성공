@@ -1,0 +1,26 @@
+def solution(q1, q2):
+    # q1 과 q2 의 총합이 짝수가 아니면 이등분 불가
+    total = sum(q1 + q2)
+    if total // 2 != total / 2 :
+        return -1
+    queue = q1 + q2 + q1 + q2
+    start, end = 0, len(q1)
+    memory = [sum(queue[start:end])]
+    target = total / 2
+    finish = len(queue)/2
+    x = 0
+    while start < finish :
+        # 매 반복마다 left_sum 과 target 을 비교
+        left_sum = memory[x]
+        diff = left_sum - target
+        if diff == 0 : # left_sum == target
+            return x
+        elif diff < 0 : # left_sum < target
+            memory.append(left_sum+queue[end])
+            end += 1
+            x += 1
+        else : # left_sum > target
+            memory.append(left_sum-queue[start])
+            start += 1
+            x += 1
+    return -1
