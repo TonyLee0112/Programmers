@@ -1,5 +1,6 @@
 import sys
 sys.setrecursionlimit(10000)
+
 def solution(q1, q2):
     total = sum(q1) + sum(q2)
 
@@ -14,19 +15,18 @@ def solution(q1, q2):
 
 def recursive_pop(start,bar,target,queue,ans) :
     # queue = q1 + q2 + q1
-    # bar = last element of q1
+    # bar = last element of the first q1
     end = start + len(queue) * 2 // 3 - 1
     if start >= len(queue) :
         return -1
-    if bar > end :
-        return -1
-    if sum(queue[start:bar+1]) > target :
+    left_sum = sum(queue[start:bar+1])
+    if left_sum > target :
         # left sum > right sum
         # q1.pop()
         start += 1
         ans += 1
         return recursive_pop(start, bar, target, queue, ans)
-    elif sum(queue[start:bar+1]) < target :
+    elif left_sum < target :
         # left sum < right sum
         # q2.pop()
         bar += 1
