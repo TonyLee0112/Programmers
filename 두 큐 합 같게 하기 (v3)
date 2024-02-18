@@ -1,0 +1,25 @@
+# Recursion 버렸음. 굳이 안 하는게 코드가 더 깔끔해서
+def solution(q1, q2):
+    # q1 과 q2 의 총합이 짝수가 아니면 이등분 불가
+    total = sum(q1 + q2)
+    if total // 2 != total / 2 :
+        return -1
+    queue = q1 + q2 + q1 + q2
+    start, end = 0, len(queue)//2 -1
+
+    bar = len(q1)-1
+    target = total / 2
+    finish = len(queue)/2
+    cnt = 0
+    while start < finish :
+        left_sum = sum(queue[start:bar+1])
+        if left_sum == target :
+            return cnt
+        elif left_sum < target :
+            bar += 1
+            cnt += 1
+        else : # left_sum < target
+            start += 1
+            end += 1
+            cnt += 1
+    return -1
