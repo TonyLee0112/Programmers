@@ -1,0 +1,43 @@
+# Recursion 이용했는데 시간 초과 ㅠㅠ
+def solution(q1, q2):
+    total = sum(q1) + sum(q2)
+
+    if total // 2 != total / 2 :
+        # q1 과 q2 의 총합이 짝수가 아니면 이등분 불가
+        return -1
+    
+    queue = q1 + q2 + q1
+    answer = recursive_pop(0,len(q1)-1,total // 2,queue,0,0)
+
+    return answer
+
+def recursive_pop(start,bar,target,queue,mode,ans) :
+    # queue = q1 + q2 + q1
+    # bar = last element of q1
+    end = start + len(queue) * 2 // 3 - 1
+    if start >= len(queue) :
+        return -1
+    if bar > end :
+        return -1
+    if sum(queue[start:bar+1]) == target :
+        return ans
+    
+    if mode == 0 :
+        a = recursive_pop(start,bar,target,queue,1,ans)
+        b = recursive_pop(start,bar,target,queue,2,ans)
+        if a != -1 and b != -1 :
+            return min(a,b)
+        else :  
+            return max(a,b)
+    
+    elif mode == 1 :
+        # q2.insert(q1.pop())
+        start += 1
+        ans += 1
+        return recursive_pop(start,bar,target,queue,0,ans)
+        
+    elif mode == 2 :
+        # q1.insert(q2.pop())
+        bar += 1
+        ans += 1
+        return recursive_pop(start,bar,target,queue,0,ans)
