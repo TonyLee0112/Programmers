@@ -1,4 +1,4 @@
-# Recursion 버렸음. 굳이 안 하는게 코드가 더 깔끔해서
+# Recursion 버렸음. 이렇게 바꾸는게 시간 더 짧음
 def solution(q1, q2):
     # q1 과 q2 의 총합이 짝수가 아니면 이등분 불가
     total = sum(q1 + q2)
