@@ -5,7 +5,7 @@ def solution(q1, q2):
         return -1
     queue = q1 + q2 + q1 + q2
     start, end = 0, len(q1)
-    memory = [sum(queue[start:end])]
+    memory = [sum(queue[start:end])] # 매번 index 를 이동하며 sum(queue[start:end]) 를 계산하지 않고 이전의 계산 결과를 기록하니 시간 줄어듦
     target = total / 2
     finish = len(queue)/2
     x = 0
