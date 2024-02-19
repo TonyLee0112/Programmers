@@ -1,0 +1,42 @@
+효율성 16.7점..
+from collections import deque
+def Rotate(rc) :
+    width, length = len(rc[0]), len(rc)
+    q = deque()
+    visited = [[False for _ in range(width)] for _ in range(length)]
+    
+    q.append([1,0,rc[0][0]]) # 값을 넣을 좌표, 값
+    while q :
+        x,y, val = q.popleft()
+        visited[y][x] = True
+        next_val = rc[y][x]
+        rc[y][x] = val
+        nx,ny = Find_Next_Coordinate(x,y,width,length)
+        if not visited[ny][nx] :
+            q.append([nx,ny,next_val])
+    return rc
+
+
+def Find_Next_Coordinate(x,y,width,length) :
+    if y == 0 and x < width - 1 :
+        x += 1
+    elif x == width - 1 and y < length - 1 :
+        y += 1
+    elif y == length - 1 and x > 0 :
+        x -= 1
+    elif x == 0 and y > 0 :
+        y -= 1
+    return [x,y]
+        
+def ShiftRow(rc):
+    new = rc.pop()
+    new = [new]+rc
+    return new
+
+def solution(rc, operations):
+    for op in operations :
+        if op == "Rotate" :
+            rc = Rotate(rc)
+        elif op == "ShiftRow" :
+            rc = ShiftRow(rc)
+    return rc
