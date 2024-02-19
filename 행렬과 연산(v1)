@@ -1,0 +1,30 @@
+효율성 16.7점
+def Rotate(rc) :
+    width, length = len(rc[0]), len(rc)
+    new = [[0 for _ in range(width)] for _ in range(length)]
+    for y in range(length) :
+        for x in range(width) :
+            nx, ny = x, y
+            if y == 0 and x < width - 1:
+                nx = x + 1
+            elif x == width - 1 and y < length - 1 :
+                ny = y + 1
+            elif y == length - 1 and x > 0 :
+                nx = x - 1
+            elif x == 0 and y > 0 :
+                ny = y - 1
+            new[ny][nx] = rc[y][x]
+    return new
+            
+def ShiftRow(rc):
+    new = rc.pop()
+    new = [new]+rc
+    return new
+
+def solution(rc, operations):
+    for op in operations :
+        if op == "Rotate" :
+            rc = Rotate(rc)
+        elif op == "ShiftRow" :
+            rc = ShiftRow(rc)
+    return rc
